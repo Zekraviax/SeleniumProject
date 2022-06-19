@@ -7,7 +7,7 @@ namespace SeleniumProject.Objects
     {
         public static IWebElement EmailField(IWebDriver driver)
         {
-            return driver.FindElement(By.Name("email"));
+            return driver.FindElement(By.Name("email_create"));
         }
 
         public static IWebElement SubmitLoginButton(IWebDriver driver)
