@@ -5,7 +5,7 @@ namespace SeleniumProject.Objects
 {
     public class LoginPage
     {
-        public static IWebElement EmailField(IWebDriver driver)
+        public static IWebElement EmailCreateField(IWebDriver driver)
         {
             return driver.FindElement(By.Name("email_create"));
         }
@@ -18,6 +18,16 @@ namespace SeleniumProject.Objects
         public static IWebElement SubmitCreateAccountButton(IWebDriver driver)
         {
             return driver.FindElement(By.Name("SubmitCreate"));
+        }
+
+        public static IWebElement EmailLoginField(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("email"));
+        }
+
+        public static IWebElement PasswordLoginField(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("passwd"));
         }
     }
 }

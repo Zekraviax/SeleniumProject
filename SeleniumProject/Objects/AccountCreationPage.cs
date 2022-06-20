@@ -49,5 +49,30 @@ namespace SeleniumProject.Objects
         {
             return driver.FindElement(By.Name("lastname"));
         }
+
+        public static IWebElement FirstAddressLineField(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("address1"));
+        }
+
+        public static IWebElement CityField(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("city"));
+        }
+
+        public static IWebElement StateDropdown(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("id_state"));
+        }
+
+        public static IWebElement PostalCodeField(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("postcode"));
+        }
+
+        public static IWebElement MobileNumberField(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("phone_mobile"));
+        }
     }
 }
