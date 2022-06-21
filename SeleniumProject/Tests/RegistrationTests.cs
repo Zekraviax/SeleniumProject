@@ -6,9 +6,9 @@ using SeleniumProject.Objects;
 using System;
 
 
-namespace SeleniumProject.Tests
+namespace SeleniumProject
 {
-    class RegistrationTests
+    class TestCases1_Registration
     {
         IWebDriver driver;
 
@@ -159,9 +159,9 @@ namespace SeleniumProject.Tests
             LoginPage.SubmitCreateAccountButton(driver).Click();
 
             SelectElement stateElement = new SelectElement(AccountCreationPage.StateDropdown(driver));
-            stateElement.SelectByIndex(32);
+            stateElement.SelectByValue("32");
 
-            Assert.AreEqual(AccountCreationPage.StateDropdown(driver).GetAttribute("value"), DataFile.state);
+            Assert.AreEqual(AccountCreationPage.StateDropdown(driver).GetAttribute("value"), "32");
         }
 
         [Test] // 11
@@ -208,7 +208,7 @@ namespace SeleniumProject.Tests
             AccountCreationPage.FirstAddressLineField(driver).SendKeys(DataFile.address);
             AccountCreationPage.CityField(driver).SendKeys(DataFile.city);
             SelectElement stateElement = new SelectElement(AccountCreationPage.StateDropdown(driver));
-            stateElement.SelectByIndex(32);
+            stateElement.SelectByValue("32");
             AccountCreationPage.PostalCodeField(driver).SendKeys(DataFile.postalCode);
             AccountCreationPage.MobileNumberField(driver).SendKeys(DataFile.mobileNumber);
 
@@ -225,7 +225,7 @@ namespace SeleniumProject.Tests
             LoginPage.SubmitCreateAccountButton(driver).Click();
 
             // fill out register form
-            var accountCreationFormWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            var accountCreationFormWait = new WebDriverWait(driver, TimeSpan.FromSeconds(60));
             accountCreationFormWait.Until(ExpectedConditions.ElementIsVisible(By.Id("account-creation_form")));
             AccountCreationPage.TitleRadioButton(driver).Click();
             AccountCreationPage.CustomerFirstNameField(driver).SendKeys(DataFile.firstName);
@@ -234,7 +234,7 @@ namespace SeleniumProject.Tests
             AccountCreationPage.FirstAddressLineField(driver).SendKeys(DataFile.address);
             AccountCreationPage.CityField(driver).SendKeys(DataFile.city);
             SelectElement stateElement = new SelectElement(AccountCreationPage.StateDropdown(driver));
-            stateElement.SelectByIndex(32);
+            stateElement.SelectByValue("32");
             AccountCreationPage.PostalCodeField(driver).SendKeys(DataFile.postalCode);
             AccountCreationPage.MobileNumberField(driver).SendKeys(DataFile.mobileNumber);
             AccountCreationPage.SubmitAccountButton(driver).Click();

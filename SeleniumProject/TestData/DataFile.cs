@@ -3,6 +3,7 @@
     public static string homePageURL = "http://automationpractice.com/index.php";
     public static string loginURL = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
     public static string registerURL = "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
+    public static string forgottenPasswordURL = "http://automationpractice.com/index.php?controller=password";
     public static string emailAddress = "jane_smith@gmail.com";
     public static string firstName = "Jane";
     public static string lastName = "Smith";

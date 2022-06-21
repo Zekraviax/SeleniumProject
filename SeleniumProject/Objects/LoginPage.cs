@@ -29,5 +29,10 @@ namespace SeleniumProject.Objects
         {
             return driver.FindElement(By.Name("passwd"));
         }
+
+        public static IWebElement ForgottenPasswordLink(IWebDriver driver)
+        {
+            return driver.FindElement(By.XPath("//*[text()='Forgot your password?']"));
+        }
     }
 }

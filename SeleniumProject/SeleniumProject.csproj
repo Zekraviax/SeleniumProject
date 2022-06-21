@@ -60,8 +60,14 @@
   <ItemGroup>
     <Compile Include="Objects\AccountCreationPage.cs" />
     <Compile Include="Objects\AccountPage.cs" />
+    <Compile Include="Objects\DressesPage.cs" />
+    <Compile Include="Objects\ForgottenPasswordPage.cs" />
     <Compile Include="Objects\LoginPage.cs" />
+    <Compile Include="Objects\ShoppingCartPage.cs" />
+    <Compile Include="Objects\TShirtsPage.cs" />
     <Compile Include="TestData\DataFile.cs" />
+    <Compile Include="Tests\TestCases2.cs" />
+    <Compile Include="Tests\TestCases4.cs" />
     <Compile Include="Utilities\DriverUtilities.cs" />
     <Compile Include="Objects\HomePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
