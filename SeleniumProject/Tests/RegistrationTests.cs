@@ -28,7 +28,7 @@ namespace SeleniumProject
             }
         }
 
-        [Test] // 1
+        [Test, Order(1)] // 1
         public void ClickSignInButton()
         {
             // Go to website
@@ -42,7 +42,7 @@ namespace SeleniumProject
             Assert.NotNull(LoginPage.SubmitLoginButton(driver));
         }
 
-        [Test] // 2
+        [Test, Order(2)] // 2
         public void EnterValidEmailAddress()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -53,7 +53,7 @@ namespace SeleniumProject
             Assert.AreEqual(LoginPage.EmailCreateField(driver).GetAttribute("value"), DataFile.emailAddress);
         }
 
-        [Test] // 3
+        [Test, Order(3)] // 3
         public void ClickCreateAccountButton()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -64,7 +64,7 @@ namespace SeleniumProject
             LoginPage.SubmitCreateAccountButton(driver).Click();
         }
 
-        [Test] // 4
+        [Test, Order(4)] // 4
         public void CheckTitleRadioButton()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -77,7 +77,7 @@ namespace SeleniumProject
             Assert.NotNull(AccountCreationPage.CheckedRadioButtonSpan(driver));
         }
 
-        [Test] // 5
+        [Test, Order(5)] // 5
         public void EnterFirstName()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -90,7 +90,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.CustomerFirstNameField(driver).GetAttribute("value"), DataFile.firstName);
         }
 
-        [Test] // 6
+        [Test, Order(6)] // 6
         public void EnterLastNameAndCheckEmailAutopopulated()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -104,7 +104,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.EmailField(driver).GetAttribute("value"), DataFile.emailAddress);
         }
 
-        [Test] // 7
+        [Test, Order(7)] // 7
         public void EnterPasswordAndCheckFirstNameAndLastNameAutopopulated()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -124,7 +124,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.AddressLastNameField(driver).GetAttribute("value"), DataFile.lastName);
         }
 
-        [Test] // 8
+        [Test, Order(8)] // 8
         public void EnterValidAddress()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -137,7 +137,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.FirstAddressLineField(driver).GetAttribute("value"), DataFile.address);
         }
 
-        [Test] // 9
+        [Test, Order(9)] // 9
         public void EnterValidCity()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -150,7 +150,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.CityField(driver).GetAttribute("value"), DataFile.city);
         }
 
-        [Test] // 10
+        [Test, Order(10)] // 10
         public void SelectValidState()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -164,7 +164,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.StateDropdown(driver).GetAttribute("value"), "32");
         }
 
-        [Test] // 11
+        [Test, Order(11)] // 11
         public void EnterValidPostalCode()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -177,7 +177,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.PostalCodeField(driver).GetAttribute("value"), DataFile.postalCode);
         }
 
-        [Test] // 12
+        [Test, Order(12)] // 12
         public void EnterValidMobilePhoneNumber()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -190,7 +190,7 @@ namespace SeleniumProject
             Assert.AreEqual(AccountCreationPage.MobileNumberField(driver).GetAttribute("value"), DataFile.mobileNumber);
         }
 
-        [Test] // 13
+        [Test, Order(13)] // 13
         public void CreateAccount()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -215,10 +215,10 @@ namespace SeleniumProject
             AccountCreationPage.SubmitAccountButton(driver).Click();
         }
 
-        [Test] // 14
+        [Test, Order(14)] // 14
         public void ClickSignOutButton()
         {
-            // go-to register page
+            // go-to login page
             driver.Navigate().GoToUrl(DataFile.loginURL);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
@@ -251,7 +251,7 @@ namespace SeleniumProject
             Assert.NotNull(LoginPage.SubmitCreateAccountButton(driver));
         }
 
-        [Test] // 15
+        [Test, Order(15)] // 15
         public void EnterEmailIntoLoginField()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -262,7 +262,7 @@ namespace SeleniumProject
             Assert.AreEqual(LoginPage.EmailLoginField(driver).GetAttribute("value"), DataFile.emailAddress);
         }
 
-        [Test] // 16
+        [Test, Order(16)] // 16
         public void EnterPasswordIntoLoginField()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);
@@ -273,7 +273,7 @@ namespace SeleniumProject
             Assert.AreEqual(LoginPage.PasswordLoginField(driver).GetAttribute("value"), DataFile.password);
         }
 
-        [Test] // 17
+        [Test, Order(17)] // 17
         public void LoginToAccount()
         {
             driver.Navigate().GoToUrl(DataFile.loginURL);

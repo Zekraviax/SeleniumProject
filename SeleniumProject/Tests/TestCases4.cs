@@ -43,7 +43,7 @@ namespace SeleniumProject
             }
         }
 
-        [Test] // 1
+        [Test, Order(1)] // 1
         public void ClickTShirtsLink()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -54,7 +54,7 @@ namespace SeleniumProject
             Assert.NotNull(TShirtsPage.TShirtsItem(driver));
         }
 
-        [Test] // 2
+        [Test, Order(2)] // 2
         public void AddTShirtToCart()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -67,7 +67,7 @@ namespace SeleniumProject
             Assert.NotNull(TShirtsPage.ContinueShoppingButton(driver));
         }
 
-        [Test] // 3
+        [Test, Order(3)] // 3
         public void ClickContinueShoppingButton()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -81,7 +81,7 @@ namespace SeleniumProject
             Assert.NotNull(TShirtsPage.TShirtsItem(driver));
         }
 
-        [Test] // 4
+        [Test, Order(4)] // 4
         public void ClickDressesButton()
         {
             AccountPage.DressesLink(driver).Click();
@@ -91,7 +91,7 @@ namespace SeleniumProject
             Assert.NotNull(DressesPage.CasualDressesLink(driver));
         }
 
-        [Test] // 5
+        [Test, Order(5)] // 5
         public void AddDressToCart()
         {
             DressesPage.AddToCartLink(driver).Click();
@@ -105,7 +105,7 @@ namespace SeleniumProject
             Assert.NotNull(DressesPage.ShoppingCartPopup(driver));
         }
 
-        [Test]  // 6
+        [Test, Order(6)]  // 6
         public void ProceedToCheckout()
         {
             // add dress and t-shirt to cart first
@@ -131,7 +131,7 @@ namespace SeleniumProject
             Assert.NotNull(ShoppingCartPage.ShoppingCartHeader(driver));
         }
 
-        [Test]  // 7
+        [Test, Order(7)]  // 7
         public void ProceedToAddressPage()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -155,7 +155,7 @@ namespace SeleniumProject
             Assert.NotNull(ShoppingCartPage.DeliveryAddressDropdown(driver));
         }
 
-        [Test]  // 8
+        [Test, Order(8)]  // 8
         public void ProceedToShippingPage()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -181,7 +181,7 @@ namespace SeleniumProject
             Assert.NotNull(ShoppingCartPage.DeliveryOptionRadio(driver));
         }
 
-        [Test]  // 9
+        [Test, Order(9)]  // 9
         public void CheckTermsAndConditionsBox()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -207,7 +207,7 @@ namespace SeleniumProject
             Assert.IsTrue(ShoppingCartPage.TermsOfServiceCheckbox(driver).Selected);
         }
 
-        [Test]  // 10
+        [Test, Order(10)]  // 10
         public void ProceedToPaymentChoice()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -235,7 +235,7 @@ namespace SeleniumProject
             Assert.NotNull(ShoppingCartPage.BankwirePaymentOption(driver));
         }
 
-        [Test]  // 11
+        [Test, Order(11)]  // 11
         public void SelectBankwirePaymentOption()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -264,7 +264,7 @@ namespace SeleniumProject
             Assert.NotNull(ShoppingCartPage.BankwirePaymentSubheading(driver));
         }
 
-        [Test]  // 12
+        [Test, Order(12)]  // 12
         public void ConfirmOrder()
         {
             AccountPage.TShirtsLink(driver).Click();
@@ -295,7 +295,7 @@ namespace SeleniumProject
             Assert.NotNull(ShoppingCartPage.OrderConfirmationHeading(driver));
         }
 
-        [Test]  // 13
+        [Test, Order(13)]  // 13
         public void GoToOrderHistoryPage()
         {
             AccountPage.TShirtsLink(driver).Click();

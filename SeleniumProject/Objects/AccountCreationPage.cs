@@ -7,7 +7,7 @@ namespace SeleniumProject.Objects
     {
         public static IWebElement SubmitAccountButton(IWebDriver driver)
         {
-            return driver.FindElement(By.Name("SubmitCreate"));
+            return driver.FindElement(By.Name("submitAccount"));
         }
 
         public static IWebElement TitleRadioButton(IWebDriver driver)
