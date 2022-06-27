@@ -4,8 +4,8 @@
     public static string loginURL = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
     public static string registerURL = "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
     public static string forgottenPasswordURL = "http://automationpractice.com/index.php?controller=password";
-    public static string emailAddress = "val_larkeh@gmail.com";
-    public static string firstName = "Janet";
+    public static string emailAddress = "jane_smith@gmail.com";
+    public static string firstName = "Jane";
     public static string lastName = "Smith";
     public static string password = "averysecurepassword?123";
     public static string address = "123 Fake Street";

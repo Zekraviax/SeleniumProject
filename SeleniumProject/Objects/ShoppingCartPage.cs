@@ -29,6 +29,7 @@ namespace SeleniumProject.Objects
             return driver.FindElement(By.Id("uniform-cgv"));
         }
 
+        // Bankwire payments
         public static IWebElement BankwirePaymentOption(IWebDriver driver)
         {
             return driver.FindElement(By.ClassName("bankwire"));
@@ -46,7 +47,7 @@ namespace SeleniumProject.Objects
 
         public static IWebElement OrderConfirmationHeading(IWebDriver driver)
         {
-            return driver.FindElement(By.XPath("//*[contains(text(), 'Order confirmation')]"));
+            return driver.FindElement(By.XPath("//*[contains(text(), 'Bank-wire payment')]"));
         }
 
         public static IWebElement BackToOrdersLink(IWebDriver driver)
@@ -57,6 +58,12 @@ namespace SeleniumProject.Objects
         public static IWebElement OrderHistoryLink(IWebDriver driver)
         {
             return driver.FindElement(By.ClassName("history_link"));
+        }
+
+        // Cheque payments
+        public static IWebElement ChequePaymentLink(IWebDriver driver)
+        {
+            return driver.FindElement(By.ClassName("cheque"));
         }
     }
 }

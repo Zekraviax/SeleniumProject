@@ -18,5 +18,16 @@ namespace SeleniumProject.Objects
         {
             return driver.FindElement(By.PartialLinkText("Dresses"));
         }
+
+        // TC3
+        public static IWebElement OrderHistoryLink(IWebDriver driver)
+        {
+            return driver.FindElement(By.PartialLinkText("Order history"));
+        }
+
+        public static System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> AllOrders(IWebDriver driver)
+        {
+            return driver.FindElements(By.PartialLinkText("PDF"));
+        }
     }
 }

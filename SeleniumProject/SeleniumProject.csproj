@@ -67,12 +67,16 @@
     <Compile Include="Objects\ShoppingCartPage.cs" />
     <Compile Include="Objects\TShirtsPage.cs" />
     <Compile Include="Data\DataFile.cs" />
-    <Compile Include="Tests\TestCases2.cs" />
-    <Compile Include="Tests\TestCases4.cs" />
+    <Compile Include="Tests\TC1_Reg1_Version2.cs" />
+    <Compile Include="Tests\TC2_RP1_Version2.cs" />
+    <Compile Include="Tests\TC3_Orders1.cs" />
+    <Compile Include="Tests\TC2_RP1.cs" />
+    <Compile Include="Tests\TC4_BUY1_Version2.cs" />
+    <Compile Include="Tests\TC4_BUY1.cs" />
     <Compile Include="Utilities\DriverUtilities.cs" />
     <Compile Include="Objects\HomePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\RegistrationTests.cs" />
+    <Compile Include="Tests\TC1_Reg1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

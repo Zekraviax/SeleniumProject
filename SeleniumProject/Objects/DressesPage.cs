@@ -11,7 +11,8 @@ namespace SeleniumProject.Objects
 
         public static IWebElement AddToCartLink(IWebDriver driver)
         {
-            return driver.FindElement(By.XPath("/html/body/div/div[2]/div/div[3]/div[2]/ul/li[1]/div/div[2]/div[2]/a[1]"));
+            //return driver.FindElement(By.XPath("/html/body/div/div[2]/div/div[3]/div[2]/ul/li[1]/div/div[2]/div[2]/a[1]"));
+            return driver.FindElement(By.ClassName("ajax_add_to_cart"));
         }
 
         public static IWebElement CheckoutButton(IWebDriver driver)
