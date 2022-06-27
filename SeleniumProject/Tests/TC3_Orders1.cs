@@ -96,11 +96,59 @@ namespace SeleniumProject
 
             // get all orders
             // output number of elements to console
-            Console.WriteLine("Orders found: " + AccountPage.AllOrders(driver).size());
+            Console.WriteLine("Orders found: " + AccountPage.AllOrders(driver).Count);
 
-            //Assert
+            Assert.AreEqual(6, AccountPage.AllOrders(driver).Count);
         }
 
+        [Test, Order(2)]
+        public void GetTotalAmountSpentOnChequePayments()
+        {
+            float runningTotal = 0.0f;
 
+            // should be at the order history page
+            // get all table entries and filter out non-cheque payments
+            var TableRows = driver.FindElements(By.TagName("tr"));
+
+            foreach (var Row in TableRows)
+            {
+                var RowTds = Row.FindElements(By.TagName("td"));
+                var HistoryMethodClass = Row.FindElement(By.ClassName("history-method"));
+                var HistoryPriceClass = Row.FindElement(By.ClassName("history-price"));
+
+                Console.WriteLine("History Method: " + HistoryMethodClass.GetAttribute("value"));
+
+                if (HistoryMethodClass.GetAttribute("value").Contains("check"))
+                {
+                    runningTotal += float.Parse(HistoryPriceClass.GetAttribute("value"));
+                }
+
+                /*
+                foreach(var td in RowTds)
+                {
+                    if (td.GetCssValue("").Contains("check"))
+                    {
+
+                    }
+                
+                }
+                */
+            }
+
+            // Assert
+        }
+
+        [Test, Order(3)]
+        public void GetTotalAmountSpentOnBankwirePayments()
+        {
+            var TableRows = driver.FindElements(By.TagName("tr"));
+
+            foreach (var Row in TableRows)
+            {
+                var HistoryMethodClass = Row.FindElement(By.ClassName("history-method"));
+
+                Console.WriteLine("History Method: " + HistoryMethodClass.GetAttribute("value"));
+            }
+        }
     }
 }
