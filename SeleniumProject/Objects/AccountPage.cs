@@ -16,13 +16,14 @@ namespace SeleniumProject.Objects
 
         public static IWebElement DressesLink(IWebDriver driver)
         {
-            return driver.FindElement(By.PartialLinkText("Dresses"));
+            //return driver.FindElement(By.LinkText("Dresses"));
+            return driver.FindElement(By.XPath("/html/body/div/div[1]/header/div[3]/div/div/div[6]/ul/li[2]/a"));
         }
 
         // TC3
         public static IWebElement OrderHistoryLink(IWebDriver driver)
         {
-            return driver.FindElement(By.PartialLinkText("Order history"));
+            return driver.FindElement(By.XPath("/html/body/div/div[2]/div/div[3]/div/div/div[1]/ul/li[1]/a"));
         }
 
         public static System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> AllOrders(IWebDriver driver)

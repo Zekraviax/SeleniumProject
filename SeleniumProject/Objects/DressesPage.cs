@@ -11,8 +11,7 @@ namespace SeleniumProject.Objects
 
         public static IWebElement AddToCartLink(IWebDriver driver)
         {
-            //return driver.FindElement(By.XPath("/html/body/div/div[2]/div/div[3]/div[2]/ul/li[1]/div/div[2]/div[2]/a[1]"));
-            return driver.FindElement(By.ClassName("ajax_add_to_cart"));
+            return driver.FindElement(By.ClassName("ajax_add_to_cart_button"));
         }
 
         public static IWebElement CheckoutButton(IWebDriver driver)
@@ -22,7 +21,7 @@ namespace SeleniumProject.Objects
 
         public static IWebElement ShoppingCartPopup(IWebDriver driver)
         {
-            return driver.FindElement(By.XPath("//*[text()='There are 2 items in your cart']"));
+            return driver.FindElement(By.ClassName("ajax_cart_product_txt_s"));
         }
     }
 }

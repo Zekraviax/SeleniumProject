@@ -154,7 +154,7 @@ namespace SeleniumProject
 
             // check for an element on the home page
             var homePageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            homePageWait.Until(ExpectedConditions.ElementIsVisible(By.Name("submitLogin")));
+            homePageWait.Until(ExpectedConditions.ElementIsVisible(By.Name("SubmitLogin")));
 
             Assert.NotNull(LoginPage.SubmitCreateAccountButton(driver));
         }

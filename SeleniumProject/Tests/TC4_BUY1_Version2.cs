@@ -56,8 +56,10 @@ namespace SeleniumProject
         [Test, Order(2)]
         public void AddTShirtToCart()
         {
-            // add to cart
             TShirtsPage.AddToCartLink(driver).Click();
+
+            var continueShoppingWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            continueShoppingWait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button-medium")));
 
             Assert.NotNull(TShirtsPage.ContinueShoppingButton(driver));
         }
@@ -67,6 +69,9 @@ namespace SeleniumProject
         {
             TShirtsPage.ContinueShoppingButton(driver).Click();
 
+            var dressesButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            dressesButtonWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("/html/body/div/div[1]/header/div[3]/div/div/div[6]/ul/li[2]/a")));
+
             Assert.NotNull(TShirtsPage.TShirtsItem(driver));
         }
 
@@ -75,7 +80,9 @@ namespace SeleniumProject
         {
             AccountPage.DressesLink(driver).Click();
 
-            // To-do: insert wait here?
+            // insert wait here
+            var addToCartButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            addToCartButtonWait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("compare-form")));
 
             Assert.NotNull(DressesPage.CasualDressesLink(driver));
         }
@@ -88,8 +95,6 @@ namespace SeleniumProject
             var checkoutWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             checkoutWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Proceed to checkout")));
 
-            DressesPage.CheckoutButton(driver).Click();
-
             // check that 2 items are in the cart
             Assert.NotNull(DressesPage.ShoppingCartPopup(driver));
         }
@@ -99,10 +104,10 @@ namespace SeleniumProject
         {
             DressesPage.CheckoutButton(driver).Click();
 
-            //var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
+            var orderSummaryPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            orderSummaryPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("cart_quantity_delete")));
 
-            Assert.NotNull(ShoppingCartPage.ShoppingCartHeader(driver));
+            Assert.NotNull(DressesPage.CheckoutButton(driver));
         }
 
         [Test, Order(7)]
@@ -110,7 +115,8 @@ namespace SeleniumProject
         {
             ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
 
-            // wait
+            var selectAddressPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            selectAddressPageWait.Until(ExpectedConditions.ElementIsVisible(By.Id("uniform-id_address_delivery")));
 
             Assert.NotNull(ShoppingCartPage.DeliveryAddressDropdown(driver));
         }
@@ -118,7 +124,10 @@ namespace SeleniumProject
         [Test, Order(8)]
         public void ProceedToShippingPage()
         {
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
+            ShoppingCartPage.ProcessAddressCheckoutButton(driver).Click();
+
+            var shippingOptionsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            shippingOptionsPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delivery_option_radio")));
 
             Assert.NotNull(ShoppingCartPage.DeliveryOptionRadio(driver));
         }
@@ -126,8 +135,14 @@ namespace SeleniumProject
         [Test, Order(9)]
         public void CheckTermsAndConditionsBox()
         {
+
             ShoppingCartPage.TermsOfServiceCheckbox(driver).Click();
-            Assert.IsTrue(ShoppingCartPage.TermsOfServiceCheckbox(driver).Selected);
+
+            // wait?
+            var shippingOptionsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(1000));
+            shippingOptionsPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delivery_option_radio")));
+
+            Assert.NotNull(driver.FindElement(By.ClassName("checked")));
         }
 
         [Test, Order(10)]
@@ -141,7 +156,6 @@ namespace SeleniumProject
         [Test, Order(11)]
         public void SelectBankwirePaymentOption()
         {
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
             ShoppingCartPage.BankwirePaymentOption(driver).Click();
 
             Assert.NotNull(ShoppingCartPage.BankwirePaymentSubheading(driver));
@@ -159,6 +173,7 @@ namespace SeleniumProject
         public void GoToOrderHistoryPage()
         {
             ShoppingCartPage.BackToOrdersLink(driver).Click();
+
             Assert.NotNull(ShoppingCartPage.OrderHistoryLink(driver));
         }
     }

@@ -11,7 +11,7 @@ namespace SeleniumProject.Objects
 
         public static IWebElement ProceedToCheckoutButton(IWebDriver driver)
         {
-            return driver.FindElement(By.ClassName("standard_checkout"));
+            return driver.FindElement(By.ClassName("standard-checkout"));
         }
 
         public static IWebElement DeliveryAddressDropdown(IWebDriver driver)
@@ -21,12 +21,17 @@ namespace SeleniumProject.Objects
 
         public static IWebElement DeliveryOptionRadio(IWebDriver driver)
         {
-            return driver.FindElement(By.Id("delivery_option_radio"));
+            return driver.FindElement(By.ClassName("delivery_option_radio"));
         }
 
         public static IWebElement TermsOfServiceCheckbox(IWebDriver driver)
         {
             return driver.FindElement(By.Id("uniform-cgv"));
+        }
+
+        public static IWebElement ProcessAddressCheckoutButton(IWebDriver driver)
+        {
+            return driver.FindElement(By.Name("processAddress"));
         }
 
         // Bankwire payments
@@ -42,17 +47,17 @@ namespace SeleniumProject.Objects
 
         public static IWebElement ConfirmOrderButton(IWebDriver driver)
         {
-            return driver.FindElement(By.ClassName("button_medium"));
+            return driver.FindElement(By.XPath("//*[contains(text(), 'I confirm my order')]"));
         }
 
         public static IWebElement OrderConfirmationHeading(IWebDriver driver)
         {
-            return driver.FindElement(By.XPath("//*[contains(text(), 'Bank-wire payment')]"));
+            return driver.FindElement(By.XPath("//*[contains(text(), 'Order confirmation')]"));
         }
 
         public static IWebElement BackToOrdersLink(IWebDriver driver)
         {
-            return driver.FindElement(By.ClassName("cart_navigation"));
+            return driver.FindElement(By.ClassName("button-exclusive"));
         }
 
         public static IWebElement OrderHistoryLink(IWebDriver driver)
