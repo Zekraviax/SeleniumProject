@@ -5,21 +5,21 @@ using SeleniumExtras.WaitHelpers;
 using SeleniumProject.Objects;
 using System;
 
-
 namespace SeleniumProject
 {
     class TC1_Reg1
     {
         IWebDriver driver;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Initialise()
         {
             DriverUtilities myDriverUtilities = new DriverUtilities();
             driver = myDriverUtilities.GetDriver();
+            driver.Manage().Window.Maximize();
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void End()
         {
             if (driver != null)
@@ -45,9 +45,6 @@ namespace SeleniumProject
         [Test, Order(2)]
         public void EnterValidEmailAddress()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
             LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
 
             Assert.AreEqual(LoginPage.EmailCreateField(driver).GetAttribute("value"), DataFile.emailAddress);
@@ -56,22 +53,14 @@ namespace SeleniumProject
         [Test, Order(3)]
         public void ClickCreateAccountButton()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-
             LoginPage.SubmitCreateAccountButton(driver).Click();
+
+            // To-Do: Missing Assert statement
         }
 
         [Test, Order(4)]
         public void CheckTitleRadioButton()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.TitleRadioButton(driver).Click();
 
             Assert.NotNull(AccountCreationPage.CheckedRadioButtonSpan(driver));
@@ -80,11 +69,6 @@ namespace SeleniumProject
         [Test, Order(5)]
         public void EnterFirstName()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.CustomerFirstNameField(driver).SendKeys(DataFile.firstName);
 
             Assert.AreEqual(AccountCreationPage.CustomerFirstNameField(driver).GetAttribute("value"), DataFile.firstName);
@@ -93,13 +77,9 @@ namespace SeleniumProject
         [Test, Order(6)]
         public void EnterLastNameAndCheckEmailAutopopulated()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.CustomerLastNameField(driver).SendKeys(DataFile.lastName);
 
+            // send an enter key press
             Assert.AreEqual(AccountCreationPage.CustomerLastNameField(driver).GetAttribute("value"), DataFile.lastName);
             Assert.AreEqual(AccountCreationPage.EmailField(driver).GetAttribute("value"), DataFile.emailAddress);
         }
@@ -107,13 +87,6 @@ namespace SeleniumProject
         [Test, Order(7)]
         public void EnterPasswordAndCheckFirstNameAndLastNameAutopopulated()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("account-creation_form")));
             AccountCreationPage.PasswordField(driver).SendKeys(DataFile.password);
 
             // Check for password length
@@ -127,11 +100,6 @@ namespace SeleniumProject
         [Test, Order(8)]
         public void EnterValidAddress()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.FirstAddressLineField(driver).SendKeys(DataFile.address);
 
             Assert.AreEqual(AccountCreationPage.FirstAddressLineField(driver).GetAttribute("value"), DataFile.address);
@@ -140,11 +108,6 @@ namespace SeleniumProject
         [Test, Order(9)]
         public void EnterValidCity()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.CityField(driver).SendKeys(DataFile.city);
 
             Assert.AreEqual(AccountCreationPage.CityField(driver).GetAttribute("value"), DataFile.city);
@@ -153,11 +116,6 @@ namespace SeleniumProject
         [Test, Order(10)]
         public void SelectValidState()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             SelectElement stateElement = new SelectElement(AccountCreationPage.StateDropdown(driver));
             stateElement.SelectByValue("32");
 
@@ -167,11 +125,6 @@ namespace SeleniumProject
         [Test, Order(11)]
         public void EnterValidPostalCode()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.PostalCodeField(driver).SendKeys(DataFile.postalCode);
 
             Assert.AreEqual(AccountCreationPage.PostalCodeField(driver).GetAttribute("value"), DataFile.postalCode);
@@ -180,11 +133,6 @@ namespace SeleniumProject
         [Test, Order(12)]
         public void EnterValidMobilePhoneNumber()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
             AccountCreationPage.MobileNumberField(driver).SendKeys(DataFile.mobileNumber);
 
             Assert.AreEqual(AccountCreationPage.MobileNumberField(driver).GetAttribute("value"), DataFile.mobileNumber);
@@ -193,60 +141,21 @@ namespace SeleniumProject
         [Test, Order(13)]
         public void CreateAccount()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("account-creation_form")));
-
-            AccountCreationPage.TitleRadioButton(driver).Click();
-            AccountCreationPage.CustomerFirstNameField(driver).SendKeys(DataFile.firstName);
-            AccountCreationPage.CustomerLastNameField(driver).SendKeys(DataFile.lastName);
-            AccountCreationPage.PasswordField(driver).SendKeys(DataFile.password);
-            AccountCreationPage.FirstAddressLineField(driver).SendKeys(DataFile.address);
-            AccountCreationPage.CityField(driver).SendKeys(DataFile.city);
-            SelectElement stateElement = new SelectElement(AccountCreationPage.StateDropdown(driver));
-            stateElement.SelectByValue("32");
-            AccountCreationPage.PostalCodeField(driver).SendKeys(DataFile.postalCode);
-            AccountCreationPage.MobileNumberField(driver).SendKeys(DataFile.mobileNumber);
-
             AccountCreationPage.SubmitAccountButton(driver).Click();
+
+            // wait
+
+            // To-Do: Missing Assert statement
         }
 
         [Test, Order(14)]
         public void ClickSignOutButton()
         {
-            // go-to login page
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            LoginPage.EmailCreateField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.SubmitCreateAccountButton(driver).Click();
-
-            // fill out register form
-            var accountCreationFormWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            accountCreationFormWait.Until(ExpectedConditions.ElementIsVisible(By.Id("account-creation_form")));
-            AccountCreationPage.TitleRadioButton(driver).Click();
-            AccountCreationPage.CustomerFirstNameField(driver).SendKeys(DataFile.firstName);
-            AccountCreationPage.CustomerLastNameField(driver).SendKeys(DataFile.lastName);
-            AccountCreationPage.PasswordField(driver).SendKeys(DataFile.password);
-            AccountCreationPage.FirstAddressLineField(driver).SendKeys(DataFile.address);
-            AccountCreationPage.CityField(driver).SendKeys(DataFile.city);
-            SelectElement stateElement = new SelectElement(AccountCreationPage.StateDropdown(driver));
-            stateElement.SelectByValue("32");
-            AccountCreationPage.PostalCodeField(driver).SendKeys(DataFile.postalCode);
-            AccountCreationPage.MobileNumberField(driver).SendKeys(DataFile.mobileNumber);
-            AccountCreationPage.SubmitAccountButton(driver).Click();
-
-            // wait for logout button to be usable
-            var logoutButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            logoutButtonWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("logout")));
             AccountPage.LogoutButton(driver).Click();
 
             // check for an element on the home page
             var homePageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            homePageWait.Until(ExpectedConditions.ElementIsVisible(By.Name("submitLogin")));
+            homePageWait.Until(ExpectedConditions.ElementIsVisible(By.Name("SubmitLogin")));
 
             Assert.NotNull(LoginPage.SubmitCreateAccountButton(driver));
         }
@@ -254,9 +163,6 @@ namespace SeleniumProject
         [Test, Order(15)]
         public void EnterEmailIntoLoginField()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
             LoginPage.EmailLoginField(driver).SendKeys(DataFile.emailAddress);
 
             Assert.AreEqual(LoginPage.EmailLoginField(driver).GetAttribute("value"), DataFile.emailAddress);
@@ -265,9 +171,6 @@ namespace SeleniumProject
         [Test, Order(16)]
         public void EnterPasswordIntoLoginField()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
             LoginPage.PasswordLoginField(driver).SendKeys(DataFile.password);
 
             Assert.AreEqual(LoginPage.PasswordLoginField(driver).GetAttribute("value"), DataFile.password);
@@ -276,15 +179,11 @@ namespace SeleniumProject
         [Test, Order(17)]
         public void LoginToAccount()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-            LoginPage.EmailLoginField(driver).SendKeys(DataFile.emailAddress);
-            LoginPage.PasswordLoginField(driver).SendKeys(DataFile.password);
             LoginPage.SubmitLoginButton(driver).Click();
 
             var logoutButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             logoutButtonWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("logout")));
+
             Assert.NotNull(AccountPage.LogoutButton(driver));
         }
     }

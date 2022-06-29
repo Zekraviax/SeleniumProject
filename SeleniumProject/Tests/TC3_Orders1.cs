@@ -113,6 +113,9 @@ namespace SeleniumProject
         [Test, Order(2)]
         public void GetTotalAmountSpentOnChequePayments()
         {
+            // The account six_smith@gmail.com has six transactions:
+            // A single t-shirt totaling $18.51
+            // Therefore, the expected total is $55.53
             float runningTotal = 0.0f;
 
             // should be at the order history page
@@ -144,17 +147,40 @@ namespace SeleniumProject
                 */
             }
 
-            // Assert
+            string consoleMessage = "Total amount spent by cheque: " + runningTotal.ToString();
+            string foundLog = "";
+
+            Console.WriteLine(consoleMessage);
+
+            var consoleLogs = driver.Manage().Logs.GetLog(LogType.Browser);
+            foreach (LogEntry log in consoleLogs)
+            {
+                Console.WriteLine(log.ToString());
+                
+                if (log.ToString() == consoleMessage)
+                {
+                    foundLog = log.ToString();
+                }
+            }
+
+            Assert.AreEqual(consoleMessage, foundLog);
         }
 
         [Test, Order(3)]
         public void GetTotalAmountSpentOnBankwirePayments()
         {
+            float runningTotal = 0.0f;
+
             var TableRows = driver.FindElements(By.TagName("tr"));
 
             foreach (var Row in TableRows)
             {
                 var HistoryMethodClass = Row.FindElement(By.ClassName("history-method"));
+                var HistoryPriceClass = Row.FindElement(By.ClassName("history-price"));
+                if (HistoryMethodClass.GetAttribute("value").Contains("bank"))
+                {
+                    runningTotal += float.Parse(HistoryPriceClass.GetAttribute("value"));
+                }
 
                 Console.WriteLine("History Method: " + HistoryMethodClass.GetAttribute("value"));
             }

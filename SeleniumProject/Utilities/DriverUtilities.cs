@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-// Required to access app.config
+﻿// Required to access app.config
 using System.Configuration;
 // Needed to work with webdriver
 using OpenQA.Selenium;

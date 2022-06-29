@@ -11,14 +11,15 @@ namespace SeleniumProject
     {
         IWebDriver driver;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DriverUtilities myDriverUtilities = new DriverUtilities();
             driver = myDriverUtilities.GetDriver();
+            driver.Manage().Window.Maximize();
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             if (driver != null)
@@ -27,7 +28,7 @@ namespace SeleniumProject
             }
         }
 
-        [Test] // 1
+        [Test, Order(1)]
         public void ClickForgottenPasswordLink()
         {
             // home page
@@ -41,54 +42,28 @@ namespace SeleniumProject
             Assert.NotNull(ForgottenPasswordPage.RetrievePasswordButton(driver));
         }
 
-        [Test] // 2
+        [Test, Order(2)]
         public void EnterValidEmailAddress()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            LoginPage.ForgottenPasswordLink(driver).Click();
-
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.Id("form_forgotpassword")));
-
             ForgottenPasswordPage.EmailField(driver).SendKeys(DataFile.emailAddress);
+
             Assert.AreEqual(ForgottenPasswordPage.EmailField(driver).GetAttribute("value"), DataFile.emailAddress);
         }
 
-        [Test] // 3
+        [Test, Order(3)]
         public void SubmitPasswordRetrieval()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            LoginPage.ForgottenPasswordLink(driver).Click();
-
-            var formWait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            formWait.Until(ExpectedConditions.ElementIsVisible(By.Id("form_forgotpassword")));
-
-            ForgottenPasswordPage.EmailField(driver).SendKeys(DataFile.emailAddress);
             ForgottenPasswordPage.RetrievePasswordButton(driver).Click();
 
-            // check for confirmation prompt
             var alertWait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
             alertWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("alert-success")));
+
             Assert.NotNull(ForgottenPasswordPage.SuccessAlert(driver));
         }
 
-        [Test] // 4
+        [Test, Order(4)]
         public void ReturnToLoginPage()
         {
-            driver.Navigate().GoToUrl(DataFile.loginURL);
-            LoginPage.ForgottenPasswordLink(driver).Click();
-
-            var formWait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            formWait.Until(ExpectedConditions.ElementIsVisible(By.Id("form_forgotpassword")));
-
-            ForgottenPasswordPage.EmailField(driver).SendKeys(DataFile.emailAddress);
-            ForgottenPasswordPage.RetrievePasswordButton(driver).Click();
-
-            // check for confirmation prompt
-            var alertWait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));
-            alertWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("alert-success")));
-
-            // return
             ForgottenPasswordPage.ReturnToLoginButton(driver).Click();
 
             var loginFormWait = new WebDriverWait(driver, TimeSpan.FromSeconds(15));

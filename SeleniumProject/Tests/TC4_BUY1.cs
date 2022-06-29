@@ -11,11 +11,12 @@ namespace SeleniumProject
     {
         IWebDriver driver;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             DriverUtilities myDriverUtilities = new DriverUtilities();
             driver = myDriverUtilities.GetDriver();
+            driver.Manage().Window.Maximize();
 
             // User needs to be signed in
             driver.Navigate().GoToUrl(DataFile.homePageURL);
@@ -33,8 +34,7 @@ namespace SeleniumProject
             loginWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("logout")));
         }
 
-        //[TestFixtureTearDown]
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             if (driver != null)
@@ -57,26 +57,21 @@ namespace SeleniumProject
         [Test, Order(2)]
         public void AddTShirtToCart()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-
-            // add to cart
             TShirtsPage.AddToCartLink(driver).Click();
+
+            var continueShoppingWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            continueShoppingWait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("button-medium")));
+
             Assert.NotNull(TShirtsPage.ContinueShoppingButton(driver));
         }
 
         [Test, Order(3)]
         public void ClickContinueShoppingButton()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-
-            TShirtsPage.AddToCartLink(driver).Click();
             TShirtsPage.ContinueShoppingButton(driver).Click();
+
+            var dressesButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            dressesButtonWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("/html/body/div/div[1]/header/div[3]/div/div/div[6]/ul/li[2]/a")));
 
             Assert.NotNull(TShirtsPage.TShirtsItem(driver));
         }
@@ -86,7 +81,9 @@ namespace SeleniumProject
         {
             AccountPage.DressesLink(driver).Click();
 
-            // To-do: insert wait here?
+            // insert wait here
+            var addToCartButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            addToCartButtonWait.Until(ExpectedConditions.ElementToBeClickable(By.ClassName("compare-form")));
 
             Assert.NotNull(DressesPage.CasualDressesLink(driver));
         }
@@ -99,8 +96,6 @@ namespace SeleniumProject
             var checkoutWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             checkoutWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Proceed to checkout")));
 
-            DressesPage.CheckoutButton(driver).Click();
-
             // check that 2 items are in the cart
             Assert.NotNull(DressesPage.ShoppingCartPopup(driver));
         }
@@ -108,49 +103,21 @@ namespace SeleniumProject
         [Test, Order(6)]
         public void ProceedToCheckout()
         {
-            // add dress and t-shirt to cart first
-            AccountPage.TShirtsLink(driver).Click();
-
-            // t-shirt
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            // dress
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
             DressesPage.CheckoutButton(driver).Click();
 
-            // go to checkout
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
+            var orderSummaryPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            orderSummaryPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("cart_quantity_delete")));
 
-            Assert.NotNull(ShoppingCartPage.ShoppingCartHeader(driver));
+            Assert.NotNull(DressesPage.CheckoutButton(driver));
         }
 
         [Test, Order(7)]
         public void ProceedToAddressPage()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
             ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
+
+            var selectAddressPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            selectAddressPageWait.Until(ExpectedConditions.ElementIsVisible(By.Id("uniform-id_address_delivery")));
 
             Assert.NotNull(ShoppingCartPage.DeliveryAddressDropdown(driver));
         }
@@ -158,25 +125,10 @@ namespace SeleniumProject
         [Test, Order(8)]
         public void ProceedToShippingPage()
         {
-            AccountPage.TShirtsLink(driver).Click();
+            ShoppingCartPage.ProcessAddressCheckoutButton(driver).Click();
 
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
+            var shippingOptionsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            shippingOptionsPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delivery_option_radio")));
 
             Assert.NotNull(ShoppingCartPage.DeliveryOptionRadio(driver));
         }
@@ -184,147 +136,45 @@ namespace SeleniumProject
         [Test, Order(9)]
         public void CheckTermsAndConditionsBox()
         {
-            AccountPage.TShirtsLink(driver).Click();
 
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
             ShoppingCartPage.TermsOfServiceCheckbox(driver).Click();
-            Assert.IsTrue(ShoppingCartPage.TermsOfServiceCheckbox(driver).Selected);
+
+            // wait?
+            var shippingOptionsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(1000));
+            shippingOptionsPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("delivery_option_radio")));
+
+            Assert.NotNull(driver.FindElement(By.ClassName("checked")));
         }
 
         [Test, Order(10)]
         public void ProceedToPaymentChoice()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
             ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
 
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-            ShoppingCartPage.TermsOfServiceCheckbox(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
             Assert.NotNull(ShoppingCartPage.BankwirePaymentOption(driver));
         }
 
         [Test, Order(11)]
         public void SelectBankwirePaymentOption()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-            ShoppingCartPage.TermsOfServiceCheckbox(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
             ShoppingCartPage.BankwirePaymentOption(driver).Click();
+
             Assert.NotNull(ShoppingCartPage.BankwirePaymentSubheading(driver));
         }
 
         [Test, Order(12)]
         public void ConfirmOrder()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-            ShoppingCartPage.TermsOfServiceCheckbox(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-            ShoppingCartPage.BankwirePaymentOption(driver).Click();
-
             ShoppingCartPage.ConfirmOrderButton(driver).Click();
+
             Assert.NotNull(ShoppingCartPage.OrderConfirmationHeading(driver));
         }
 
         [Test, Order(13)]
         public void GoToOrderHistoryPage()
         {
-            AccountPage.TShirtsLink(driver).Click();
-
-            var tshirtsPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            tshirtsPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("T-shirts")));
-            TShirtsPage.AddToCartLink(driver).Click();
-            TShirtsPage.ContinueShoppingButton(driver).Click();
-
-            var dressesPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            dressesPageWait.Until(ExpectedConditions.ElementIsVisible(By.PartialLinkText("Dresses")));
-            AccountPage.DressesLink(driver).Click();
-            DressesPage.AddToCartLink(driver).Click();
-            DressesPage.CheckoutButton(driver).Click();
-
-            var shoppingCartWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            shoppingCartWait.Until(ExpectedConditions.ElementIsVisible(By.Id("cart_title")));
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-            ShoppingCartPage.TermsOfServiceCheckbox(driver).Click();
-
-            ShoppingCartPage.ProceedToCheckoutButton(driver).Click();
-            ShoppingCartPage.BankwirePaymentOption(driver).Click();
-
-            ShoppingCartPage.ConfirmOrderButton(driver).Click();
-
             ShoppingCartPage.BackToOrdersLink(driver).Click();
+
             Assert.NotNull(ShoppingCartPage.OrderHistoryLink(driver));
         }
     }
