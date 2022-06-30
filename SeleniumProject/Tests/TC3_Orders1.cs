@@ -32,6 +32,10 @@ namespace SeleniumProject
             var logoutButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             logoutButtonWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("logout")));
 
+            AccountPage.OrderHistoryLink(driver).Click();
+            var orderHistoryPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            orderHistoryPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("item")));
+
             // Order
             //AccountPage.TShirtsLink(driver).Click();
             //for (int i = 0; i < 6; i++)
@@ -96,18 +100,29 @@ namespace SeleniumProject
         [Test, Order(1)]
         public void CountAmountOfPaymentsAndOutputToConsole()
         {
-            // should already be at the account page
-            AccountPage.OrderHistoryLink(driver).Click();
-
-            // wait
-            var orderHistoryPageWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            orderHistoryPageWait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("item")));
-
             // get all orders
             // output number of elements to console
-            Console.WriteLine("Orders found: " + AccountPage.AllOrders(driver).Count);
+            //Console.WriteLine("Orders found: " + AccountPage.AllOrders(driver).Count);
+            //Assert.AreEqual(6, AccountPage.AllOrders(driver).Count);
 
-            Assert.AreEqual(6, AccountPage.AllOrders(driver).Count);
+            string consoleMessage = "Orders found: " + AccountPage.AllOrders(driver).Count;
+            //string foundLog = "";
+
+            //Console.WriteLine(consoleMessage);
+            System.Diagnostics.Debug.WriteLine(consoleMessage);
+
+            //var consoleLogs = driver.Manage().Logs.GetLog(LogType.Browser);
+            //foreach (LogEntry log in consoleLogs)
+            //{
+            //    Console.WriteLine(log.ToString());
+
+            //    if (log.ToString() == consoleMessage)
+            //    {
+            //        foundLog = log.ToString();
+            //    }
+            //}
+
+            Assert.AreEqual(consoleMessage, "Orders found: 6");
         }
 
         [Test, Order(2)]
@@ -122,68 +137,77 @@ namespace SeleniumProject
             // get all table entries and filter out non-cheque payments
             var TableRows = driver.FindElements(By.TagName("tr"));
 
-            foreach (var Row in TableRows)
+            foreach (IWebElement Row in TableRows)
             {
                 var RowTds = Row.FindElements(By.TagName("td"));
-                var HistoryMethodClass = Row.FindElement(By.ClassName("history-method"));
-                var HistoryPriceClass = Row.FindElement(By.ClassName("history-price"));
+                IWebElement HistoryMethodClass = null;
+                IWebElement HistoryPriceClass = null;
 
-                Console.WriteLine("History Method: " + HistoryMethodClass.GetAttribute("value"));
-
-                if (HistoryMethodClass.GetAttribute("value").Contains("check"))
+                foreach (IWebElement Td in RowTds)
                 {
-                    runningTotal += float.Parse(HistoryPriceClass.GetAttribute("value"));
-                }
-
-                /*
-                foreach(var td in RowTds)
-                {
-                    if (td.GetCssValue("").Contains("check"))
+                    if (Td.GetAttribute("class") == "history_price")
                     {
-
+                        HistoryPriceClass = Td;
+                    } else if (Td.GetAttribute("class") == "history_method")
+                    {
+                        HistoryMethodClass = Td;
                     }
-                
                 }
-                */
-            }
 
-            string consoleMessage = "Total amount spent by cheque: " + runningTotal.ToString();
-            string foundLog = "";
-
-            Console.WriteLine(consoleMessage);
-
-            var consoleLogs = driver.Manage().Logs.GetLog(LogType.Browser);
-            foreach (LogEntry log in consoleLogs)
-            {
-                Console.WriteLine(log.ToString());
-                
-                if (log.ToString() == consoleMessage)
+                if (HistoryPriceClass != null && HistoryMethodClass != null)
                 {
-                    foundLog = log.ToString();
+                    if (HistoryMethodClass.Text.Contains("check"))
+                    {
+                        string AmountAsString = HistoryPriceClass.Text.Replace("$", "");
+                        //System.Diagnostics.Debug.WriteLine(AmountAsString);
+                        runningTotal += float.Parse(AmountAsString);
+                    }
                 }
             }
 
-            Assert.AreEqual(consoleMessage, foundLog);
+            string consoleMessage = "Total amount spent by cheque: $" + runningTotal.ToString();
+            //System.Diagnostics.Debug.WriteLine(consoleMessage);
+
+            Assert.AreEqual(consoleMessage, "Total amount spent by cheque: $55.53");
         }
 
         [Test, Order(3)]
         public void GetTotalAmountSpentOnBankwirePayments()
         {
             float runningTotal = 0.0f;
-
             var TableRows = driver.FindElements(By.TagName("tr"));
 
-            foreach (var Row in TableRows)
+            foreach (IWebElement Row in TableRows)
             {
-                var HistoryMethodClass = Row.FindElement(By.ClassName("history-method"));
-                var HistoryPriceClass = Row.FindElement(By.ClassName("history-price"));
-                if (HistoryMethodClass.GetAttribute("value").Contains("bank"))
+                var RowTds = Row.FindElements(By.TagName("td"));
+                IWebElement HistoryMethodClass = null;
+                IWebElement HistoryPriceClass = null;
+
+                foreach (IWebElement Td in RowTds)
                 {
-                    runningTotal += float.Parse(HistoryPriceClass.GetAttribute("value"));
+                    if (Td.GetAttribute("class") == "history_price")
+                    {
+                        HistoryPriceClass = Td;
+                    }
+                    else if (Td.GetAttribute("class") == "history_method")
+                    {
+                        HistoryMethodClass = Td;
+                    }
                 }
 
-                Console.WriteLine("History Method: " + HistoryMethodClass.GetAttribute("value"));
+                if (HistoryPriceClass != null && HistoryMethodClass != null)
+                {
+                    if (HistoryMethodClass.Text.Contains("wire"))
+                    {
+                        string AmountAsString = HistoryPriceClass.Text.Replace("$", "");
+                        runningTotal += float.Parse(AmountAsString);
+                    }
+                }
             }
+
+            string consoleMessage = "Total amount spent by bankwire: $" + runningTotal.ToString();
+
+            Assert.AreEqual(consoleMessage, "Total amount spent by bankwire: $55.53");
         }
     }
 }
