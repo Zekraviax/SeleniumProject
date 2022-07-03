@@ -4,7 +4,7 @@
     public static string loginURL = "http://automationpractice.com/index.php?controller=authentication&back=my-account";
     public static string registerURL = "http://automationpractice.com/index.php?controller=authentication&back=my-account#account-creation";
     public static string forgottenPasswordURL = "http://automationpractice.com/index.php?controller=password";
-    public static string emailAddress = "six_smith@gmail.com";
+    public static string emailAddress = "jane_smith222@gmail.com";
     public static string firstName = "Jane";
     public static string lastName = "Smith";
     public static string password = "averysecurepassword?123";
@@ -13,4 +13,7 @@
     public static string state = "New York";
     public static string postalCode = "11004";
     public static string mobileNumber = "555-0199";
+
+    // TestCase3
+    public static string tc3EmailAddress = "six_smith@gmail.com";
 }

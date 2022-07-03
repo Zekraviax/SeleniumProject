@@ -25,7 +25,7 @@ namespace SeleniumProject
             var loginButtonWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             loginButtonWait.Until(ExpectedConditions.ElementIsVisible(By.Id("SubmitLogin")));
 
-            LoginPage.EmailLoginField(driver).SendKeys(DataFile.emailAddress);
+            LoginPage.EmailLoginField(driver).SendKeys(DataFile.tc3EmailAddress);
             LoginPage.PasswordLoginField(driver).SendKeys(DataFile.password);
             LoginPage.SubmitLoginButton(driver).Click();
 
